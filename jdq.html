@@ -1,0 +1,66 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://www.w3school.com.cn/jquery/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.get("?action=status", function(result){
+    	window.window.switchs = jQuery.parseJSON(result);
+    	$("div").html(window.switchs[1]);
+	  	for (var i=0;i<3;i++){
+	  		if (window.window.switchs['switch'+i]==1) {
+	  			$("#switch"+i).attr("checked", true);
+	  		}else{
+	  			$("#switch"+i).attr("checked", false);
+	  		}
+		};
+  	});
+$("#switch0").change(function(){
+	if ($("#switch0").get(0).checked) {window.switchs["switch0"]=1;
+		$.get("?action=set&switch0="+window.switchs['switch0']+"&switch1="+window.switchs['switch1']+"&switch2="+window.switchs['switch2'], function(result){
+			if (result=="OK"){
+				$("div").html("总开关已开启！");
+				window.switchs["switch0"]=1
+				$("#switch0").attr("checked", true);
+			};
+		});
+}
+	else{window.switchs['switch0']=0;
+		$.get("?action=set&switch0="+window.switchs['switch0']+"&switch1="+window.switchs['switch1']+"&switch2="+window.switchs['switch2'], function(result){
+			if (result=="OK"){
+				$("div").html("总开关已关闭！");
+				window.switchs["switch0"]=0
+				$("#switch0").attr("checked", false);
+			};
+		});
+	};
+});
+
+$("#switch1").change(function(){
+	if ($("#switch1").get(0).checked) {window.switchs['switch1']=1;$("div").html("光感已开启！");}
+	else{window.switchs['switch1']=0;$("div").html("光感已关闭！");};
+	$.get("?action=set&switch0="+window.switchs['switch0']+"&switch1="+window.switchs['switch1']+"&switch2="+window.switchs['switch2'],
+	function(result){});
+});
+
+$("#switch2").change(function(){
+	if ($("#switch2").get(0).checked) {window.switchs['switch2']=1;$("div").html("手动开关已开启！");}
+	else{window.switchs['switch2']=0;$("div").html("手动开关已关闭！");};
+	$.get("?action=set&switch0="+window.switchs['switch0']+"&switch1="+window.switchs['switch1']+"&switch2="+window.switchs['switch2'],
+	function(result){});
+});
+});
+</script>
+
+    <link href="http://www.css88.com/b-mui/css/mui-switch.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div>ca</div>
+<label>
+总开关<input id="switch0" class="mui-switch mui-switch-anim" type="checkbox"><br>
+光感开关<input id="switch1" class="mui-switch mui-switch-anim" type="checkbox" ><br>
+手动开关<input id="switch2" class="mui-switch mui-switch-anim" type="checkbox" >
+</label>
+</body>
+</html>
